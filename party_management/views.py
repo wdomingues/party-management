@@ -43,12 +43,12 @@ def send_confirmations(request): #TODO fix for 3 confirmations
             fail_silently=False,
         )
 
-    account_sid = WPP.get('WPP_ACC_SID')
-    auth_token = WPP.get('WPP_AUTH_TOKEN')
+    account_sid = settings.WPP_ACC_SID
+    auth_token = settings.WPP_AUTH_TOKEN
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
-        from_=f'whatsapp:{ WPP.get('WPP_FROM_NUM') }',
+        from_=f'whatsapp:{ settings.WPP_FROM_NUM }',
         body='Your appointment is coming up on July 21 at 3PM',
         to=f'whatsapp:{g.cellphone}'
     )
