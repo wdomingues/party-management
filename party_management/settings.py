@@ -51,6 +51,9 @@ if not IS_HEROKU_APP:
 # e-mail confirgurations
 if not IS_HEROKU_APP:
     from local_envs import EMAIL, PG
+else:
+    EMAIL = {}
+    PG = {}
     
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get("EMAIL_HOST",default=EMAIL.get("EMAIL_HOST"))
