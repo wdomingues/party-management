@@ -15,7 +15,6 @@ import secrets
 from pathlib import Path
 import dj_database_url
 
-from local_envs import EMAIL, PG
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,7 +49,9 @@ if not IS_HEROKU_APP:
 
 
 # e-mail confirgurations
-# if not IS_HEROKU_APP:
+if not IS_HEROKU_APP:
+    from local_envs import EMAIL, PG
+    
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get("EMAIL_HOST",default=EMAIL.get("EMAIL_HOST"))
 EMAIL_PORT = os.environ.get("EMAIL_PORT",default=EMAIL.get("EMAIL_PORT"))
