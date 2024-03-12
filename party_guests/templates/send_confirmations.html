@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% comment %} <title>Cadastro de Convidados</title> {% endcomment %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Enviar Confirmações de Presença</h1>
+    <p>As confirmações foram enviadas com sucesso.</p>
+    <p><a href="{% url 'list_guests' %}">Voltar para a lista de convidados</a></p>
+  </div>
+</div>
+{% endblock %}

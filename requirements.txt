@@ -15,3 +15,5 @@ whitenoise[brotli]>=6.0,<7.0
 # speed up installation and avoid errors from missing libraries/headers.
 psycopg[c]; sys_platform == "linux"
 psycopg[binary]; sys_platform != "linux"
+
+twilio>=9.0,<9.1

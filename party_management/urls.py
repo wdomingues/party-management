@@ -22,4 +22,7 @@ from party_management import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="index"),
+    path('register-guest/', views.register_guest, name='register_guest'),
+    path('list-guests/', views.list_guests, name='list_guests'),
+    path('send-confirmations/', views.send_confirmations, name='send_confirmations'),
 ]

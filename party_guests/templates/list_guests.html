@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% comment %} <title>Cadastro de Convidados</title> {% endcomment %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Lista de Convidados</h1>
+    <ul>
+        {% for g in guests %}
+            <li>{{ g.name }}</li>
+        {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

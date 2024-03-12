@@ -15,6 +15,8 @@ import secrets
 from pathlib import Path
 import dj_database_url
 
+from local_envs import EMAIL, PG
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,6 +49,17 @@ if not IS_HEROKU_APP:
     DEBUG = True
 
 
+# e-mail confirgurations
+# if not IS_HEROKU_APP:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get("EMAIL_HOST",default=EMAIL.get("EMAIL_HOST"))
+EMAIL_PORT = os.environ.get("EMAIL_PORT",default=EMAIL.get("EMAIL_PORT"))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER",default=EMAIL.get("EMAIL_HOST_USER"))
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD",default=EMAIL.get("EMAIL_HOST_PASSWORD"))
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER",default=EMAIL.get("EMAIL_HOST_USER"))
+
+
 # On Heroku, it's safe to use a wildcard for `ALLOWED_HOSTS``, since the Heroku router performs
 # validation of the Host header in the incoming HTTP request. On other platforms you may need
 # to list the expected hostnames explicitly to prevent HTTP Host header attacks. See:
@@ -60,6 +73,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    "party_guests",
     # Use WhiteNoise's runserver implementation instead of the Django default, for dev-prod parity.
     "whitenoise.runserver_nostatic",
     # Uncomment this and the entry in `urls.py` if you wish to use the Django admin feature:
@@ -92,7 +106,7 @@ ROOT_URLCONF = 'party_management.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'party_management/templates'), os.path.join(BASE_DIR, 'party_guests/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,13 +138,22 @@ if IS_HEROKU_APP:
         ),
     }
 else:
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
+    #     }
+    # },
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": PG.get("PG_DB_NAME"),
+            "USER": PG.get("PG_USER"),
+            "PASSWORD": PG.get("PG_PASSWD"),
+            "HOST": PG.get("PG_HOST"),
+            "PORT": PG.get("PG_PORT"),
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
