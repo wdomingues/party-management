@@ -48,12 +48,13 @@ if not IS_HEROKU_APP:
     DEBUG = True
 
 
-# e-mail confirgurations
+# e-mail and WhatsApp configurations
 if not IS_HEROKU_APP:
-    from local_envs import EMAIL, PG
+    from local_envs import EMAIL, PG, WPP
 else:
     EMAIL = {}
     PG = {}
+    WPP = {}
     
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get("EMAIL_HOST",default=EMAIL.get("EMAIL_HOST"))
@@ -62,6 +63,10 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER",default=EMAIL.get("EMAIL_HOST
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD",default=EMAIL.get("EMAIL_HOST_PASSWORD"))
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER",default=EMAIL.get("EMAIL_HOST_USER"))
+
+WPP_ACC_SID = os.environ.get("WPP_ACC_SID",default=WPP.get("WPP_ACC_SID"))
+WPP_AUTH_TOKEN = os.environ.get("WPP_AUTH_TOKEN",default=WPP.get("WPP_AUTH_TOKEN"))
+WPP_FROM_NUM = os.environ.get("WPP_FROM_NUM",default=WPP.get("WPP_FROM_NUM"))
 
 
 # On Heroku, it's safe to use a wildcard for `ALLOWED_HOSTS``, since the Heroku router performs
