@@ -1,0 +1,20 @@
+{
+  "name": "Party Management",
+  "description": "A system to make your party throwing life easier.",
+  "image": "heroku/python",
+  "repository": "https://github.com/wdomingues/party-management",
+  "keywords": ["python", "django"],
+  "env": {
+    "DJANGO_SECRET_KEY": {
+      "description": "The secret key for the Django application.",
+      "generator": "secret"
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "./manage.py test --debug-mode"
+      }
+    }
+  }
+}
