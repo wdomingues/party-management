@@ -31,7 +31,8 @@ def list_guests(request):
 
 def send_confirmations(request): #TODO fix for 3 confirmations
     confirmation_date = timezone.now() + timezone.timedelta(days=7)  # TODO Change for setup date
-    guests = Guest.objects.filter(confirmed_1=False) #TODO fix for 3 confirmations
+    # guests = Guest.objects.filter(confirmed_1=False) #TODO fix for 3 confirmations
+    guests = Guest.objects.filter(confirmed_2=False)
 
     for g in guests:
         send_mail(
@@ -41,19 +42,19 @@ def send_confirmations(request): #TODO fix for 3 confirmations
             [g.email],
             fail_silently=False,
         )
+        
+        account_sid = settings.WPP_ACC_SID
+        auth_token = settings.WPP_AUTH_TOKEN
+        client = Client(account_sid, auth_token)
 
-    account_sid = settings.WPP_ACC_SID
-    auth_token = settings.WPP_AUTH_TOKEN
-    client = Client(account_sid, auth_token)
-
-    message = client.messages.create(
-        from_=f'whatsapp:{ settings.WPP_FROM_NUM }',
-        body='Your appointment is coming up on July 21 at 3PM',
-        to=f'whatsapp:{g.cellphone}'
-    )
-    print(message.sid)
-    
-    g.confirmed_1 = True
-    g.save()
+        message = client.messages.create(
+            from_=f'whatsapp:{ settings.WPP_FROM_NUM }',
+            body='Your appointment is coming up on July 21 at 3PM',
+            to=f'whatsapp:{g.cellphone}'
+        )
+        print(message.sid)
+        
+        g.confirmed_1 = True
+        g.save()
 
     return redirect('list_guests')
